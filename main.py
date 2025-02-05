@@ -1,32 +1,24 @@
 from graphics import *
-from cell import Cell
+from maze import Maze
+import sys
 
 def main():
-    win = Window(800, 600)
-    cell_instance1 = Cell(win)
-    cell_instance1.has_right_wall = False
-    cell_instance1.draw(50, 100, 50, 100)
+    num_rows = 10
+    num_cols = 10
+    margin = 50
+    screen_x = 1920
+    screen_y = 1080
+    cell_size_x = (screen_x - 2 * margin) / num_cols
+    cell_size_y = (screen_y - 2 * margin) / num_rows
 
-    cell_instance2 = Cell(win)
-    cell_instance2.has_left_wall = False
-    cell_instance2.has_bottom_wall = False
-    cell_instance2.draw(100, 150, 50, 100)
-
-    cell_instance1.draw_move(cell_instance2)
-
-    cell_instance3 = Cell(win)
-    cell_instance3.has_top_wall = False
-    cell_instance3.has_right_wall = False
-    cell_instance3.draw(100, 150, 100, 150)
-
-    cell_instance2.draw_move(cell_instance3)
-
-    cell_instance4 = Cell(win)
-    cell_instance4.has_left_wall = False
-    cell_instance4.draw(150, 200, 100, 150)
-
-    cell_instance3.draw_move(cell_instance4, True)
-
+    sys.setrecursionlimit(10000)
+    win = Window(screen_x, screen_y)
+    maze = Maze(margin, margin, num_rows, num_cols, cell_size_x, cell_size_y, win, 10)
+    print("Maze created!")
+    is_solvable = maze.solve()
+    if not is_solvable:
+        print("Maze cannot be solved!")
+    else:
+        print("Maze solved!")
     win.wait_for_close()
-
 main()
